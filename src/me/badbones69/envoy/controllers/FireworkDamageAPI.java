@@ -47,27 +47,10 @@ public class FireworkDamageAPI implements Listener {
 	}
 	
 	@EventHandler
-	public void onPlayerDamage(EntityDamageEvent e) {
-		for(Entity en : e.getEntity().getNearbyEntities(5, 5, 5)) {
-			if(en.getType() == EntityType.FIREWORK) {
-				if(getFireworks().contains(en)) {
-					e.setCancelled(true);
-				}
-			}
+	public void fireworkDamageEvent(EntityDamageByEntityEvent e) {
+		Entity fw = e.getDamager();
+		if (fireworks.contains(fw)) {
+			e.setCancelled(true);
 		}
 	}
-	
-	@EventHandler
-	public void onFireworkExplode(FireworkExplodeEvent e) {
-		final Entity firework = e.getEntity();
-		if(getFireworks().contains(firework)) {
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					removeFirework(firework);
-				}
-			}.runTaskLater(plugin, 5);
-		}
-	}
-	
 }
